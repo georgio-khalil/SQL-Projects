@@ -1,2 +1,2 @@
 # SQL Portfolio
- Georgio's SQL Projects
+ My SQL Projects
