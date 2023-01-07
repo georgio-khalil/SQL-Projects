@@ -1,0 +1,241 @@
+-- This is the code I wrote to solve part 1 of the course titled "Level Up: SQL" by Scott Simpson on Linkedin Learning.
+
+-- Challenge 01_01: Generate a list of customer information.
+
+-- Solution:
+
+SELECT FirstName, LastName, Email 
+From Customers
+ORDER BY LastName
+
+
+-- Challenge 01_02: Create a table in the database to store customer
+-- responses to our anniversary invitation.
+
+-- Solution:
+
+CREATE TABLE CustomersResponses (
+  CustomerID int,
+  PartySize int
+);
+
+
+-- Challenge 01_03: Create reports that will be used to make three menus.
+
+-- Create a report with all the items sorted by price (lowest to highest).
+-- Create a report showing appetizers and beverages.
+-- Create a report with all items except beverages.
+
+-- Solution:
+
+SELECT *
+FROM Dishes
+ORDER BY Price
+
+SELECT *
+FROM Dishes
+WHERE Type IN ('Appetizer','Beverage')
+ORDER BY Type
+
+SELECT *
+FROM Dishes
+WHERE Type IS NOT 'Beverage'
+ORDER BY Type
+
+-- Challenge 01_04: Add a customer to the restaurant's loyalty program.
+
+-- Use the following information to create a record:
+-- Anna Smith (asmith@samoca.org)
+-- 479 Lapis Dr., Memphis, TN
+-- Phone: (555) 555-1212; Birthday: July 21, 1973
+
+-- Solution:
+
+INSERT INTO Customers (FirstName, LastName, Email, Address, City, State, Phone, Birthday)
+VALUES ('Anna','Smith','asmith@samoca.org','479 Lapis Dr.','Memphis','TN','555-555-1212','1973-07-21');
+
+-- Challenge 01_05: Update a customer's contact information.
+
+-- Taylor Jenkins, of 27170 6th Ave., Washington, DC,
+-- has moved to 74 Pine St., New York, NY.
+
+-- Solution:
+
+UPDATE Customers
+SET Address = '74 Pine St.', 
+    City = 'New York', 
+    State = 'NY'
+WHERE FirstName = 'Taylor' 
+AND LastName = 'Jenkins' 
+AND Address = '27170 6th Ave.' 
+AND City = 'Washington' 
+AND State = 'DC';
+
+SELECT * FROM Customers
+WHERE FirstName = 'Taylor' 
+AND LastName = 'Jenkins' 
+AND Address = '74 Pine St.';
+
+
+-- Challenge 01_06: Remove incorrect information from the database
+
+-- A customer named Norby has notified us he won't 
+-- be able to keep his Friday reservation. 
+-- Today is July 24, 2022.
+
+--Solution:
+
+--Today is a Sunday. Next Friday is July 29, 2022.
+--Find the reservation:
+SELECT *
+FROM Reservations
+WHERE Date(Date) = '2022-07-29';
+
+--Only one matching record. Match CustomerID to FirstName to check if the reservation is by Norby:
+SELECT FirstName
+FROM Customers
+WHERE CustomerID = 64;
+
+--Check Successful. Delete reservation:
+DELETE FROM Reservations
+WHERE ReservationID = 2000;
+
+--Check if reservation was deleted from the table:
+SELECT ReservationID
+FROM Reservations
+WHERE ReservationID BETWEEN 1990 AND 2001
+
+--Reservation ID 2000 has been deleted.
+
+
+-- Challenge 01_07: Register a customer for our Anniversary event
+
+-- The customer 'atapley2j@kinetecoinc.com' will be in
+-- attendance, and will bring 3 friends.
+
+-- Solution:
+
+-- Use email address to look up customer and get customer ID as a subquery
+INSERT INTO CustomersResponses
+VALUES (
+  (SELECT CustomerID 
+    FROM Customers
+    WHERE Email = 'atapley2j@kinetecoinc.com'),
+  4);
+
+--Check updated table
+SELECT * FROM CustomersResponses;
+
+
+-- Challenge 01_08: Find the reservation information for a customer whose name we aren't quite sure how to spell
+
+-- Variations of the name include:
+-- Stevensen, Stephensen, Stevenson, Stephenson, Stuyvesant
+-- There are four people in the party. Today is June 14th.
+
+-- Solution:
+
+SELECT * FROM Reservations
+JOIN Customers ON Reservations.CustomerID = Customers.CustomerID
+WHERE Customers.LastName LIKE 'St%e%s%'
+  AND date(Reservations.Date) = '2022-06-14'
+  
+  
+-- Challenge 01_09: Create a reservation for a customer who may or may not already be listed in our Customers table.
+
+-- Use the following information:
+-- Sam McAdams (smac@kinetecoinc.com), for 5 people
+-- on August 12, 2022 at 6PM (18:00)
+
+-- Solution:
+
+-- Check if customer is in database:
+SELECT CustomerID FROM Customers WHERE Email = 'smac@kinetecoinc.com';
+
+-- Not found. Create record for customer:
+INSERT INTO Customers (FirstName, LastName, Email)
+VALUES ('Sam','McAdams','smac@kinetecoinc.com');
+
+-- Create reservation under new customer ID:
+INSERT INTO Reservations (CustomerID, Date, PartySize)
+VALUES ((SELECT CustomerID FROM Customers WHERE Email = 'smac@kinetecoinc.com'),
+        '2022-08-12 18:00:00',
+        5);
+
+-- Check reservation and customer details:
+SELECT * FROM Reservations
+JOIN Customers ON Reservations.CustomerID = Customers.CustomerID
+WHERE Customers.Email = 'smac@kinetecoinc.com'
+
+
+-- Challenge 01_10: Enter a customer's delivery order into our database' and provide the total cost of the items ordered
+
+-- Use this order information:
+-- Customer: Loretta Hundey, at 6939 Elka Place
+-- Items: 1 House Salad, 1 Mini Cheeseburgers, and
+-- 1 Tropical Blue Smoothie
+-- Delivery date and time: September 20, 2022 @ 2PM (14:00)
+-- There are no taxes or other fees.
+
+-- Solution:
+
+-- Find the customer in our database:
+SELECT * from Customers
+WHERE FirstName = 'Loretta';
+
+-- Create order record from customer ID 70:
+INSERT INTO Orders (CustomerID, OrderDate)
+VALUES (70, '2022-09-20 14:00:00');
+
+-- Check order ID
+SELECT * FROM Orders
+WHERE CustomerID = 70
+ORDER BY OrderDate DESC;
+
+-- Add items to order ID 1001:
+INSERT INTO OrdersDishes (OrderID,DishID)
+VALUES (1001,(SELECT DishID FROM Dishes WHERE Name = 'House Salad'));
+INSERT INTO OrdersDishes (OrderID,DishID)
+VALUES (1001,(SELECT DishID FROM Dishes WHERE Name = 'Mini Cheeseburgers'));
+INSERT INTO OrdersDishes (OrderID,DishID)
+VALUES (1001,(SELECT DishID FROM Dishes WHERE Name = 'Tropical Blue Smoothie'));
+
+-- Check full order with items
+SELECT OrdersDishes.OrderID, OrdersDishes.DishID, Dishes.Name, Dishes.Price FROM OrdersDishes
+JOIN Dishes ON OrdersDishes.DishID = Dishes.DishID WHERE OrdersDishes.OrderID = 1001
+
+-- Calculate total cost
+SELECT sum(Dishes.Price) FROM OrdersDishes
+JOIN Dishes ON OrdersDishes.DishID = Dishes.DishID WHERE OrdersDishes.OrderID = 1001
+
+-- Challenge 01_11: Update information in the database
+-- Set Cleo Goldwater's favorite dish to
+-- the Quinoa Salmon Salad.
+
+-- Solution:
+
+-- Find customer in database:
+SELECT * FROM Customers
+WHERE FirstName = 'Cleo' and LastName = 'Goldwater'
+
+-- Check current favorite dish:
+SELECT * from Dishes
+WHERE DishID = 14
+
+-- Challenge 01_12: Identify a few customers who have ordered delivery
+-- from the restaurant the most often, so we can send
+-- them a promotional coupon.
+
+-- Solution:
+
+SELECT Customers.FirstName, Customers.LastName, Customers.Email, count(Orders.OrderID) AS NumberOfOrders
+FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID
+GROUP BY orders.CustomerID
+ORDER BY NumberOfOrders DESC
+LIMIT 6;
+
+-- Update favorite dish:
+UPDATE Customers
+SET FavoriteDish = (SELECT DishID FROM Dishes WHERE Name = 'Quinoa Salmon Salad')
+WHERE FirstName = 'Cleo' and LastName = 'Goldwater'
