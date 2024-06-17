@@ -1,0 +1,17 @@
+/* 
+SQLite code for Linkedin Learning course "SQL Essential Training" by Walter Shields
+*/
+
+/*
+Chapter 4: Query Composition
+Created by: Georgio Khalil
+Date: 06/16/2024
+Description: Display all customers first and last names, and email addresses
+*/
+
+SELECT
+ FirstName,
+ LastName,
+ Email
+FROM
+ Customer
