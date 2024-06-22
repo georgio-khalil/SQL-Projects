@@ -1,0 +1,18 @@
+/*
+Chapter 7: SQL Functions
+Section 3: Connecting strings
+Created by: Georgio Khalil
+Date: 06/22/2024
+Description: Create a mailing list of US Customers
+*/
+
+SELECT
+ FirstName,
+ LastName,
+ Address,
+ FirstName || ' '|| LastName ||', '|| Address ||', '|| City ||', '|| State||' '|| PostalCode AS "Mailing Address"
+FROM
+ Customer
+WHERE
+ Country = 'USA'
+ 
