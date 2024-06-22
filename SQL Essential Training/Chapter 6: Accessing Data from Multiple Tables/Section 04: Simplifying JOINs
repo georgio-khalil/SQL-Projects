@@ -1,4 +1,7 @@
-/* Created by: Georgio Khalil
+/* 
+Chapter 6: Accessing Data from Multiple Tables
+Section 4: Simplifying JOINs
+Created by: Georgio Khalil
 Date: 06/22/2024
 Description: Generate a list of customer names (first and last) next to the invoices each customer purchased
 */
