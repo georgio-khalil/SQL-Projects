@@ -1,0 +1,40 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 3: BETWEEN and IN operators
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices exist between $1.98 and $5.00 
+*/
+
+SELECT
+ InvoiceId,
+ Total
+
+FROM
+ Invoice
+ 
+WHERE
+ total BETWEEN 1.98 and 5.00
+ 
+-- 178 invoices had a total betwen $1.98 and $5.00 inclusive
+
+/*
+Chapter 5: Discovering Insights in Data
+Section 3: BETWEEN and IN operators
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices are exactly $1.98 or $3.96
+*/
+
+SELECT
+ InvoiceId,
+ Total
+
+FROM
+ Invoice
+ 
+WHERE
+ total IN (1.98, 3.96)
+ 
+-- 178 invoices had a total of $1.98 or $3.96
+
