@@ -1,0 +1,24 @@
+/*
+Chapter 6: Accessing Data from Multiple Tables
+Code Chaallenge: Analyzing customer support interactions
+Created by: Georgio Khalil
+Date: 06/22/2024
+Description: Write a SQL query to generates a report that lists each customer along with 
+their assigned support representative
+*/
+
+SELECT
+ c.FIRSTNAME AS CustomerFirstName,
+ c.LASTNAME AS CustomerLastName,
+ e.FIRSTNAME AS SupportRepFirstName,
+ e.LASTNAME AS SupportRepLastName
+FROM 
+ Customer as c
+INNER JOIN
+ Employee as e
+ON
+ c.SUPPORTREPID = e.EMPLOYEEID
+ORDER BY
+ e.LASTNAME,
+ c.LASTNAME
+;
