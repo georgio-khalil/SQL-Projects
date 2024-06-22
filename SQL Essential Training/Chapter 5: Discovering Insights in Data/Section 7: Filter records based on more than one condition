@@ -1,0 +1,20 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 7: Filter records based on more than one condition
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: list all invoices billled after May 22, 2010 and have a total of less than $3.00
+*/
+
+SELECT
+ InvoiceId,
+ InvoiceDate,
+ Total
+
+FROM
+ Invoice
+ 
+WHERE
+ date(InvoiceDate)>'2010-05-22'
+AND
+ total<3 
