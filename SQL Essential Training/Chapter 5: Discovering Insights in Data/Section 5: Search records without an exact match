@@ -1,0 +1,19 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 5: Search records without an exact match
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices were billed to cities that start with B?
+*/
+
+SELECT
+ InvoiceId,
+ BillingCity
+
+FROM
+ Invoice
+ 
+WHERE
+ BillingCity LIKE 'B%'
+ 
+-- 28 invoices were billed to Brussels, Orlando, or Paris
