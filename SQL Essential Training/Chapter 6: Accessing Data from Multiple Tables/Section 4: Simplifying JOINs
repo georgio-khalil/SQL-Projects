@@ -1,0 +1,20 @@
+/* Created by: Georgio Khalil
+Date: 06/22/2024
+Description: Generate a list of customer names (first and last) next to the invoices each customer purchased
+*/
+
+SELECT
+ c.LastName,
+ c.FirstName,
+ i.InvoiceId,
+ c.CustomerId,
+ i.InvoiceDate,
+ i.Total
+FROM
+ Invoice AS i
+INNER JOIN 
+ Customer AS c
+ON 
+ i.CustomerId = c.CustomerId
+ORDER BY c.CustomerId
+ 
