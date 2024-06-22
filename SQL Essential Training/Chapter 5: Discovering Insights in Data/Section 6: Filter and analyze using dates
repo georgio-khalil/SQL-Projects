@@ -1,0 +1,19 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 6: Filter and analyze using dates
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices were billed on May 22, 2010?
+*/
+
+SELECT
+ InvoiceId,
+ InvoiceDate
+
+FROM
+ Invoice
+ 
+WHERE
+ date(InvoiceDate)='2010-05-22'
+ 
+--  one invoice was billed on May 22, 2010. InvoiceId 117
