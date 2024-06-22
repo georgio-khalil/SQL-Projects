@@ -1,0 +1,17 @@
+/* Created by: Georgio Khalil
+Date: 06/21/2024
+Description: Query to select track name, composer, price, and categorizes track based on price
+*/
+-- SQL request(s)​​​​​​‌​‌‌​‌​​‌‌​​​‌​‌​‌​​​​​​‌ below
+
+SELECT
+ Name AS "Track Name",
+ Composer,
+ UnitPrice AS Price,
+ CASE WHEN UnitPrice <= 0.99 THEN 'Budget'
+ WHEN UnitPrice BETWEEN 1.00 AND 1.49 THEN 'Regular'
+ WHEN UnitPrice BETWEEN 1.50 AND 1.99 THEN 'Premium'
+ ELSE 'Exclusive'
+ END AS PriceCategory
+FROM Track AS t
+ORDER BY UnitPrice ASC;
