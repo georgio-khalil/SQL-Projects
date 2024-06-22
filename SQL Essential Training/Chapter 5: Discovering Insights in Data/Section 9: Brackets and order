@@ -1,0 +1,20 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 9: Brackets and order 
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: list all invoices greater than $1.98 and billed to cities that start with P or D
+*/
+
+--PEMDAS: Parentheses, Exponents, Multiplication, Division, Addition, Subtraction
+
+SELECT
+ InvoiceId,
+ BillingCity,
+ total
+ 
+FROM
+ Invoice
+ 
+WHERE
+ total>1.98 AND (BillingCity LIKE 'P%' OR BillingCity LIKE 'D%')
