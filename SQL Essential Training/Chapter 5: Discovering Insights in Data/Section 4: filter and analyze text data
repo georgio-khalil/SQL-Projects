@@ -1,0 +1,40 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 4: filter and analyze text data
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices were billed to Brussels?
+*/
+
+SELECT
+ InvoiceId,
+ BillingCity
+
+FROM
+ Invoice
+ 
+WHERE
+ BillingCity = "Brussels"
+ 
+-- 7 invoices were billed to Brussels
+
+
+/*
+Chapter 5: Discovering Insights in Data
+Section 4: filter and analyze text data
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: how many invoices were billed to Brussels, Orlando, or Paris?
+*/
+
+SELECT
+ InvoiceId,
+ BillingCity
+
+FROM
+ Invoice
+ 
+WHERE
+ BillingCity IN ('Brussels', 'Orlando', 'Paris')
+ 
+-- 28 invoices were billed to Brussels, Orlando, or Paris
