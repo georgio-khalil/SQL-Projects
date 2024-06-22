@@ -1,0 +1,33 @@
+/*
+Chapter 5: Discovering Insights in Data
+Section 10: IF THEN logic with CASE
+Created by: Georgio Khalil
+Date: 06/21/2024
+Description: WSDA Music Sales Goal:
+we want as many customers as possible to spend between $7.00 and $15.00
+
+Sales Categories
+Baseline Purchase: between $0.99 and $1.99
+Low Purchase: between $2.00 and $6.99
+Target Purchase: Between $7.00 and $15.00
+Top Performer: Above $15.00
+
+In which cities are top performers located?
+*/
+
+SELECT
+ InvoiceDate,
+ BillingAddress,
+ BillingCity,
+ total,
+ CASE WHEN total < 2.00 THEN 'Baseline Purchase'
+ WHEN total BETWEEN 2.00 AND 6.99 THEN 'Low Purchase'
+ WHEN total BETWEEN 7.00 AND 15.00 THEN 'Target Purchase'
+ ELSE 'Top Performer'
+ END AS PurchaseType
+FROM
+ Invoice
+WHERE
+  PurchaseType = 'Top Performer'
+ ORDER By
+  BillingCity
