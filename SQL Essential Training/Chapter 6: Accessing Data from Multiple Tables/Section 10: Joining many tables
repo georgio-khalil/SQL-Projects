@@ -1,0 +1,29 @@
+/*
+Chapter 6: Accessing Data from Multiple Tables
+Section 10: Joining many tables
+Created by: Georgio Khalil
+Date: 06/22/2024
+Description: Determine the employees with the 10 highest individual sales
+*/
+
+SELECT
+ e.FirstName,
+ e.LastName,
+ e.EmployeeId,
+ c.FirstName,
+ c.LastName,
+ c.SupportRepId,
+ i.CustomerId,
+ i.total
+FROM
+ Invoice AS i
+LEFT JOIN --decided to do left join instead of the inner join used in the solution to include any invoices that may have been submitted by customers no longer on file
+ Customer AS c
+ON 
+ i.CustomerId = c.CustomerId
+LEFT JOIN
+ Employee AS e
+ON
+ c.SupportRepId = e.EmployeeId
+ORDER BY i.total DESC
+ 
