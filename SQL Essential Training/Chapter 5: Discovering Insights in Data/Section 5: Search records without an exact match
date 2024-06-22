@@ -16,4 +16,4 @@ FROM
 WHERE
  BillingCity LIKE 'B%'
  
--- 28 invoices were billed to Brussels, Orlando, or Paris
+-- 62 invoices were billed to cities that start with B
